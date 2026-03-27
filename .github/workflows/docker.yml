@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build Push Deploy
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 
@@ -23,3 +23,12 @@ jobs:
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-backend-app
+
+      - name: Setup kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl set image deployment/backend backend=${{ secrets.DOCKER_USERNAME }}/my-backend-app
