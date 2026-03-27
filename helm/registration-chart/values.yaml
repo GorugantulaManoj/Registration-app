@@ -1,0 +1,58 @@
+replicaCount: 1
+
+image:
+  repository: my-backend-app
+  tag: latest
+  pullPolicy: Never
+
+
+service:
+  type: NodePort
+  port: 5000
+  nodePort: 30009
+
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: registration.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+
+httpRoute:
+  enabled: false
+
+
+resources: {}
+
+autoscaling:
+  enabled: false
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: []
+
+
+config:
+  DB_HOST: mysql
+  DB_NAME: mydb
+  DB_USER: user
+
+
+secret:
+  DB_PASSWORD: password
