@@ -31,4 +31,4 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/backend backend=${{ secrets.DOCKER_USERNAME }}/my-backend-app
+          kubectl set image deployment/backend-deployment backend=${{ secrets.DOCKER_USERNAME }}/my-backend-app
